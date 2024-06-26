@@ -31,7 +31,8 @@ kubecm add docs
 
 ```
       --cluster_id string   kubernetes cluster id
-      --config string       path of kubeconfig (default "/Users/guoxd/.kube/config")
+      --config string       path of kubeconfig (default "$HOME/.kube/config")
+      --create              Create a new kubeconfig file if not exists
   -m, --mac-notify          enable to display Mac notification banner
       --provider string     public cloud
       --region_id string    cloud region id

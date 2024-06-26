@@ -21,7 +21,8 @@ KubeConfig Manager.
 ### Options
 
 ```
-      --config string   path of kubeconfig (default "/Users/guoxd/.kube/config")
+      --config string   path of kubeconfig (default "$HOME/.kube/config")
+      --create          Create a new kubeconfig file if not exists
   -h, --help            help for kubecm
   -m, --mac-notify      enable to display Mac notification banner
   -s, --silence-table   enable/disable output of context table on successful config update

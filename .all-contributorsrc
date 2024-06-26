@@ -92,7 +92,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/40051120?v=4",
       "profile": "https://se7enshare.netlify.app/",
       "contributions": [
-        "code"
+        "code",
+        "doc"
       ]
     },
     {
@@ -202,6 +203,15 @@
       "name": "Jan-Otto Kröpke",
       "avatar_url": "https://avatars.githubusercontent.com/u/1560587?v=4",
       "profile": "https://github.com/jkroepke",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "yxxhero",
+      "name": "yxxhero",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11087727?v=4",
+      "profile": "http://www.aiopsclub.com",
       "contributions": [
         "code"
       ]

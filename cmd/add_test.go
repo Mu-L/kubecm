@@ -62,23 +62,23 @@ var (
 		AuthInfos: map[string]*clientcmdapi.AuthInfo{
 			"black-user":            {Token: "black-token"},
 			"red-user":              {Token: "red-token"},
-			"red-user-7f65b9cc8f":   {Token: "red-token"},
-			"black-user-gtch2cf96d": {Token: "black-token"},
+			"red-user-cbc897d6ch":   {Token: "red-token"},
+			"black-user-d2m9fd8b7d": {Token: "black-token"},
 			"not-exist":             {Token: "not-exist-token"},
 		},
 		Clusters: map[string]*clientcmdapi.Cluster{
 			"pig-cluster":            {Server: "http://pig.org:8080"},
 			"cow-cluster":            {Server: "http://cow.org:8080"},
-			"cow-cluster-7f65b9cc8f": {Server: "http://cow.org:8080"},
-			"pig-cluster-gtch2cf96d": {Server: "http://pig.org:8080"},
+			"cow-cluster-cbc897d6ch": {Server: "http://cow.org:8080"},
+			"pig-cluster-d2m9fd8b7d": {Server: "http://pig.org:8080"},
 			"not-exist":              {Server: "http://not.exist:8080"},
 		},
 		Contexts: map[string]*clientcmdapi.Context{
-			"root":            {AuthInfo: "black-user", Cluster: "pig-cluster", Namespace: "saw-ns"},
-			"federal":         {AuthInfo: "red-user", Cluster: "cow-cluster", Namespace: "hammer-ns"},
-			"test-d2m9fd8b7d": {AuthInfo: "black-user-gtch2cf96d", Cluster: "pig-cluster-gtch2cf96d", Namespace: "saw-ns"},
-			"test-cbc897d6ch": {AuthInfo: "red-user-7f65b9cc8f", Cluster: "cow-cluster-7f65b9cc8f", Namespace: "hammer-ns"},
-			"test-2h6782585t": {AuthInfo: "not-exist", Cluster: "not-exist", Namespace: "not-exist-ns"},
+			"root":              {AuthInfo: "black-user", Cluster: "pig-cluster", Namespace: "saw-ns"},
+			"federal":           {AuthInfo: "red-user", Cluster: "cow-cluster", Namespace: "hammer-ns"},
+			"root-context":      {AuthInfo: "black-user-d2m9fd8b7d", Cluster: "pig-cluster-d2m9fd8b7d", Namespace: "saw-ns"},
+			"federal-context":   {AuthInfo: "red-user-cbc897d6ch", Cluster: "cow-cluster-cbc897d6ch", Namespace: "hammer-ns"},
+			"not-exist-context": {AuthInfo: "not-exist", Cluster: "not-exist", Namespace: "not-exist-ns"},
 		},
 	}
 	singleTestConfig = clientcmdapi.Config{
@@ -121,9 +121,89 @@ var (
 			"single-cluster": {Server: "http://single:8080"},
 		},
 		Contexts: map[string]*clientcmdapi.Context{
+			"root":                  {AuthInfo: "black-user", Cluster: "pig-cluster", Namespace: "saw-ns"},
+			"federal":               {AuthInfo: "red-user", Cluster: "cow-cluster", Namespace: "hammer-ns"},
+			"rename-single-context": {AuthInfo: "single-user", Cluster: "single-cluster", Namespace: "single-ns"},
+		},
+	}
+	contextTemplateTestConfig = clientcmdapi.Config{
+		AuthInfos: map[string]*clientcmdapi.AuthInfo{
+			"black-user":  {Token: "black-token"},
+			"red-user":    {Token: "red-token"},
+			"single-user": {Token: "single-token"},
+		},
+		Clusters: map[string]*clientcmdapi.Cluster{
+			"pig-cluster":    {Server: "http://pig.org:8080"},
+			"cow-cluster":    {Server: "http://cow.org:8080"},
+			"single-cluster": {Server: "http://single:8080"},
+		},
+		Contexts: map[string]*clientcmdapi.Context{
+			"root":                            {AuthInfo: "black-user", Cluster: "pig-cluster", Namespace: "saw-ns"},
+			"federal":                         {AuthInfo: "red-user", Cluster: "cow-cluster", Namespace: "hammer-ns"},
+			"test-single-user-single-cluster": {AuthInfo: "single-user", Cluster: "single-cluster", Namespace: "single-ns"},
+		},
+	}
+	contextTemplateAndPrefixTestConfig = clientcmdapi.Config{
+		AuthInfos: map[string]*clientcmdapi.AuthInfo{
+			"black-user":  {Token: "black-token"},
+			"red-user":    {Token: "red-token"},
+			"single-user": {Token: "single-token"},
+		},
+		Clusters: map[string]*clientcmdapi.Cluster{
+			"pig-cluster":    {Server: "http://pig.org:8080"},
+			"cow-cluster":    {Server: "http://cow.org:8080"},
+			"single-cluster": {Server: "http://single:8080"},
+		},
+		Contexts: map[string]*clientcmdapi.Context{
+			"root":                            {AuthInfo: "black-user", Cluster: "pig-cluster", Namespace: "saw-ns"},
+			"federal":                         {AuthInfo: "red-user", Cluster: "cow-cluster", Namespace: "hammer-ns"},
+			"demo-single-user-single-cluster": {AuthInfo: "single-user", Cluster: "single-cluster", Namespace: "single-ns"},
+		},
+	}
+	contextNameTestConfig = clientcmdapi.Config{
+		AuthInfos: map[string]*clientcmdapi.AuthInfo{
+			"black-user":  {Token: "black-token"},
+			"red-user":    {Token: "red-token"},
+			"single-user": {Token: "single-token"},
+		},
+		Clusters: map[string]*clientcmdapi.Cluster{
+			"pig-cluster":    {Server: "http://pig.org:8080"},
+			"cow-cluster":    {Server: "http://cow.org:8080"},
+			"single-cluster": {Server: "http://single:8080"},
+		},
+		Contexts: map[string]*clientcmdapi.Context{
 			"root":    {AuthInfo: "black-user", Cluster: "pig-cluster", Namespace: "saw-ns"},
 			"federal": {AuthInfo: "red-user", Cluster: "cow-cluster", Namespace: "hammer-ns"},
-			"rename":  {AuthInfo: "single-user", Cluster: "single-cluster", Namespace: "single-ns"},
+			"demo":    {AuthInfo: "single-user", Cluster: "single-cluster", Namespace: "single-ns"},
+		},
+	}
+
+	multiTestConfig = clientcmdapi.Config{
+		AuthInfos: map[string]*clientcmdapi.AuthInfo{
+			"blue-user":  {Token: "blue-token"},
+			"green-user": {Token: "green-token"}},
+		Clusters: map[string]*clientcmdapi.Cluster{
+			"cat-cluster": {Server: "http://cat.org:8080"},
+			"dog-cluster": {Server: "http://dog.org:8080"}},
+		Contexts: map[string]*clientcmdapi.Context{
+			"small": {AuthInfo: "blue-user", Cluster: "cat-cluster", Namespace: "cat-ns"},
+			"large": {AuthInfo: "green-user", Cluster: "dog-cluster", Namespace: "dog-ns"},
+		},
+	}
+
+	selectContextTestConfig = clientcmdapi.Config{
+		AuthInfos: map[string]*clientcmdapi.AuthInfo{
+			"blue-user":  {Token: "blue-token"},
+			"black-user": {Token: "black-token"},
+			"red-user":   {Token: "red-token"}},
+		Clusters: map[string]*clientcmdapi.Cluster{
+			"cat-cluster": {Server: "http://cat.org:8080"},
+			"pig-cluster": {Server: "http://pig.org:8080"},
+			"cow-cluster": {Server: "http://cow.org:8080"}},
+		Contexts: map[string]*clientcmdapi.Context{
+			"small":   {AuthInfo: "blue-user", Cluster: "cat-cluster", Namespace: "cat-ns"},
+			"root":    {AuthInfo: "black-user", Cluster: "pig-cluster", Namespace: "saw-ns"},
+			"federal": {AuthInfo: "red-user", Cluster: "cow-cluster", Namespace: "hammer-ns"},
 		},
 	}
 )
@@ -192,8 +272,10 @@ func TestKubeConfig_handleContexts(t *testing.T) {
 		fileName string
 	}
 	type args struct {
-		oldConfig *clientcmdapi.Config
-		newName   string
+		oldConfig       *clientcmdapi.Config
+		context         []string
+		contextPrefix   string
+		contextTemplate []string
 	}
 	tests := []struct {
 		name    string
@@ -203,9 +285,13 @@ func TestKubeConfig_handleContexts(t *testing.T) {
 		wantErr bool
 	}{
 		// TODO: Add test cases.
-		{"not have new context name", fields{config: newConfig, fileName: "test"}, args{&oldTestConfig, ""}, &mergedConfig, false},
-		{"single context name", fields{config: singleConfig, fileName: "test"}, args{&oldTestConfig, ""}, &mergeSingleTestConfig, false},
-		{"single context name - new", fields{config: singleConfig, fileName: "test"}, args{&oldTestConfig, "rename"}, &renameSingleTestConfig, false},
+		{"not have new context name", fields{config: newConfig, fileName: "test"}, args{&oldTestConfig, []string{}, "", []string{"context"}}, &mergedConfig, false},
+		{"single context name", fields{config: singleConfig, fileName: "test"}, args{&oldTestConfig, []string{}, "", []string{"context"}}, &mergeSingleTestConfig, false},
+		{"single context name - new", fields{config: singleConfig, fileName: "test"}, args{&oldTestConfig, []string{}, "rename", []string{"context"}}, &renameSingleTestConfig, false},
+		{"set context template", fields{config: singleConfig, fileName: "test"}, args{&oldTestConfig, []string{}, "", []string{"filename", "user", "cluster"}}, &contextTemplateTestConfig, false},
+		{"set context template and context prefix", fields{config: singleConfig, fileName: "test"}, args{&oldTestConfig, []string{}, "demo", []string{"user", "cluster"}}, &contextTemplateAndPrefixTestConfig, false},
+		{"set context name", fields{config: singleConfig, fileName: "test"}, args{&oldTestConfig, []string{}, "demo", []string{}}, &contextNameTestConfig, false},
+		{"select context", fields{config: &multiTestConfig, fileName: "test"}, args{&oldTestConfig, []string{"small"}, "", []string{"context"}}, &selectContextTestConfig, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -213,7 +299,7 @@ func TestKubeConfig_handleContexts(t *testing.T) {
 				config:   tt.fields.config,
 				fileName: tt.fields.fileName,
 			}
-			got, err := kc.handleContexts(tt.args.oldConfig, tt.args.newName)
+			got, err := kc.handleContexts(tt.args.oldConfig, tt.args.contextPrefix, false, tt.args.contextTemplate, tt.args.context)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("handleContexts() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -265,7 +351,7 @@ func TestAddToLocal(t *testing.T) {
 	}
 
 	// Test AddToLocal function
-	err = AddToLocal(newConfig, tempFile.Name(), "", true)
+	err = AddToLocal(newConfig, tempFile.Name(), "", true, false, []string{"context"}, []string{})
 	if err != nil {
 		t.Fatalf("Failed to add to local: %v", err)
 	}
@@ -278,5 +364,86 @@ func TestAddToLocal(t *testing.T) {
 
 	if _, ok := loadedConfig.Contexts["test-context"]; !ok {
 		t.Fatalf("Failed to find 'test-context' in the loaded config")
+	}
+}
+
+func TestGenerateContextName(t *testing.T) {
+	type fields struct {
+		config   *clientcmdapi.Config
+		fileName string
+	}
+	type args struct {
+		name            string
+		ctx             *clientcmdapi.Context
+		contextTemplate []string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   string
+	}{
+		{
+			name: "all attributes",
+			fields: fields{
+				config:   &clientcmdapi.Config{},
+				fileName: "test-file",
+			},
+			args: args{
+				name: "test-context",
+				ctx: &clientcmdapi.Context{
+					AuthInfo:  "test-user",
+					Cluster:   "test-cluster",
+					Namespace: "test-namespace",
+				},
+				contextTemplate: []string{"filename", "context", "user", "cluster", "namespace"},
+			},
+			want: "test-file-test-context-test-user-test-cluster-test-namespace",
+		},
+		{
+			name: "partial attributes",
+			fields: fields{
+				config:   &clientcmdapi.Config{},
+				fileName: "test-file",
+			},
+			args: args{
+				name: "test-context",
+				ctx: &clientcmdapi.Context{
+					AuthInfo:  "test-user",
+					Cluster:   "test-cluster",
+					Namespace: "test-namespace",
+				},
+				contextTemplate: []string{"filename", "user", "namespace"},
+			},
+			want: "test-file-test-user-test-namespace",
+		},
+		{
+			name: "no attributes",
+			fields: fields{
+				config:   &clientcmdapi.Config{},
+				fileName: "test-file",
+			},
+			args: args{
+				name: "test-context",
+				ctx: &clientcmdapi.Context{
+					AuthInfo:  "test-user",
+					Cluster:   "test-cluster",
+					Namespace: "test-namespace",
+				},
+				contextTemplate: []string{},
+			},
+			want: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			kc := &KubeConfigOption{
+				config:   tt.fields.config,
+				fileName: tt.fields.fileName,
+			}
+			if got := kc.generateContextName(tt.args.name, tt.args.ctx, tt.args.contextTemplate); got != tt.want {
+				t.Errorf("generateContextName() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }

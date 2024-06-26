@@ -35,12 +35,12 @@ jobs:
         run: make test
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v6
         with:
           version: v1.54
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v4.1.1
+        uses: codecov/codecov-action@v4.5.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.txt
